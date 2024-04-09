@@ -1,10 +1,21 @@
-let username = "Eric";
-console.log(username);
+let myName: string = "Eric";
+let meaningOfLife: number;
+let isLoading: boolean;
+let album: any;
 
-let a: number = 12;
-let b: number = 6;
-let c: number = 2;
+myName = "John";
+meaningOfLife = 42;
+isLoading = true;
+album: 5150;
 
-console.log(a / b);
+const sum = (a: number, b: number) => {
+  return a + b;
+};
 
-console.log(c * b);
+let postId: string | number; //union type
+let isActive: number | boolean;
+
+// to help typeScript infer that this variable is a RegExp
+// let re = /\w+/g
+
+let re: RegExp = /\w+/g;
