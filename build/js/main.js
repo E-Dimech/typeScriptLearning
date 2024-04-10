@@ -1,56 +1,81 @@
 "use strict";
-let stringArr = ["one", "hey", "Eric"];
-let guitars = ["Strat", "Les Paul", 5150];
-let mixedData = ["EVH", 1986, true];
-stringArr[0] = "John";
-stringArr.push("dave");
-guitars[0] = 1984;
-guitars.unshift("Jimi");
-let test = [];
-let bands = [];
-bands.push("Van");
-//Tuple
-let myTuple = ["Dave", 42, true];
-let mixed = ["John", 1, false];
-//Objects
-let myObj;
-myObj = [];
-console.log(typeof myObj);
-myObj = bands;
-myObj = {};
-const exampleObj = {
-    prop1: "Eric",
-    prop2: true,
+//interface vs type
+//use interface when defining something like a class or object
+//syntax > remove = before object
+//type aliases > for any type of typescript type
+//Literal types
+let myName;
+let userName;
+userName = "Eric";
+//functions
+const add = (a, b) => {
+    return a + b;
 };
-exampleObj.prop2 = true;
-exampleObj.prop1 = "John";
-let evh = {
-    name: "Eddie",
-    active: false,
-    albums: [1984, 5150, "OU812"],
+const logMsg = (message) => {
+    console.log(message);
 };
-let jp = {
-    name: "Jimmy",
-    active: true,
-    albums: ["I", "II", "IV"],
+logMsg("Hello!");
+logMsg(add(2, 3));
+let subtract = function (c, d) {
+    return c - d;
 };
-const greetGuitarist = (guitarist) => {
-    if (guitarist.name) {
-        return `HELLO ${guitarist.name.toUpperCase()}!`;
+logMsg(subtract(6, 3));
+// interface mathFunction { (a: number, b: number): number};
+let multiply = function (c, d) {
+    return c * d;
+};
+let altMultiply = (g, h) => {
+    return g * h;
+};
+logMsg(multiply(2, 4));
+logMsg(altMultiply(2, 4));
+//optional parameters
+//if else check required for optional paramenters
+//optional parameters must go last after ALL required ones
+const addAll = (a, b, c) => {
+    if (typeof c !== "undefined") {
+        return a + b + c;
     }
-    return "Hello!";
+    return a + b;
 };
-console.log(greetGuitarist(jp));
-// Enums
-// Unlike most TypeScript features, Enums are not a
-// type-level addition to JavaScript but something
-// added to the language and runtime.
-var Grade;
-(function (Grade) {
-    Grade[Grade["F"] = 1] = "F";
-    Grade[Grade["D"] = 2] = "D";
-    Grade[Grade["C"] = 3] = "C";
-    Grade[Grade["B"] = 4] = "B";
-    Grade[Grade["A"] = 5] = "A";
-})(Grade || (Grade = {}));
-console.log(Grade.F);
+//default param value
+const sumAll = (a = 10, b, c = 2) => {
+    return a + b + c;
+};
+logMsg(addAll(2, 3, 2));
+logMsg(addAll(2, 3));
+logMsg(sumAll(2, 3));
+logMsg(sumAll(undefined, 3));
+// Rest parameters
+const total = (...nums) => {
+    return nums.reduce((prev, curr) => prev + curr);
+};
+const newTotal = (a, ...nums) => {
+    return a + nums.reduce((prev, curr) => prev + curr);
+};
+logMsg(total(1, 2, 3, 4));
+logMsg(newTotal(1, 2, 3));
+//never type
+const createError = (errMsg) => {
+    throw new Error(errMsg);
+};
+const infinite = () => {
+    let i = 1;
+    while (true) {
+        i++;
+        if (i > 100)
+            break;
+    }
+};
+//custom type guard
+const isNumber = (value) => {
+    return typeof value === "number" ? true : false;
+};
+//use of the never type
+const numberOrString = (value) => {
+    if (typeof value === "string")
+        return "string";
+    if (isNumber(value))
+        return "number";
+    return createError("This should never happen");
+};

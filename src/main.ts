@@ -1,79 +1,110 @@
-let stringArr = ["one", "hey", "Eric"];
-let guitars = ["Strat", "Les Paul", 5150];
+//interface vs type
+//use interface when defining something like a class or object
+//syntax > remove = before object
+//type aliases > for any type of typescript type
 
-let mixedData = ["EVH", 1986, true];
+type stringOrNumber = string | number;
 
-stringArr[0] = "John";
-stringArr.push("dave");
-
-guitars[0] = 1984;
-guitars.unshift("Jimi");
-
-let test = [];
-let bands: string[] = [];
-
-bands.push("Van");
-
-//Tuple
-
-let myTuple: [string, number, boolean] = ["Dave", 42, true];
-
-let mixed = ["John", 1, false];
-
-//Objects
-
-let myObj: object;
-myObj = [];
-console.log(typeof myObj);
-myObj = bands;
-myObj = {};
-
-const exampleObj = {
-  prop1: "Eric",
-  prop2: true,
-};
-
-exampleObj.prop2 = true;
-exampleObj.prop1 = "John";
+type stringOrNumberArray = (string | number)[];
 
 type Guitarist = {
   name?: string;
   active: boolean;
-  albums: (string | number)[];
+  albums: stringOrNumberArray;
 };
 
-let evh: Guitarist = {
-  name: "Eddie",
-  active: false,
-  albums: [1984, 5150, "OU812"],
+type UserId = stringOrNumber;
+
+//Literal types
+let myName: "Eric";
+
+let userName: "Eric" | "John" | "Amy";
+userName = "Eric";
+
+//functions
+const add = (a: number, b: number): number => {
+  return a + b;
 };
 
-let jp: Guitarist = {
-  name: "Jimmy",
-  active: true,
-  albums: ["I", "II", "IV"],
+const logMsg = (message: any): void => {
+  console.log(message);
 };
 
-const greetGuitarist = (guitarist: Guitarist) => {
-  if (guitarist.name) {
-    return `HELLO ${guitarist.name.toUpperCase()}!`;
+logMsg("Hello!");
+logMsg(add(2, 3));
+
+let subtract = function (c: number, d: number): number {
+  return c - d;
+};
+
+logMsg(subtract(6, 3));
+
+type mathFunction = (a: number, b: number) => number;
+// interface mathFunction { (a: number, b: number): number};
+
+let multiply: mathFunction = function (c, d) {
+  return c * d;
+};
+
+let altMultiply = (g: number, h: number): number => {
+  return g * h;
+};
+
+logMsg(multiply(2, 4));
+logMsg(altMultiply(2, 4));
+
+//optional parameters
+//if else check required for optional paramenters
+//optional parameters must go last after ALL required ones
+const addAll = (a: number, b: number, c?: number): number => {
+  if (typeof c !== "undefined") {
+    return a + b + c;
   }
-  return "Hello!";
+  return a + b;
+};
+//default param value
+const sumAll = (a: number = 10, b: number, c: number = 2): number => {
+  return a + b + c;
 };
 
-console.log(greetGuitarist(jp));
+logMsg(addAll(2, 3, 2));
+logMsg(addAll(2, 3));
+logMsg(sumAll(2, 3));
+logMsg(sumAll(undefined, 3));
 
-// Enums
-// Unlike most TypeScript features, Enums are not a
-// type-level addition to JavaScript but something
-// added to the language and runtime.
+// Rest parameters
+const total = (...nums: number[]): number => {
+  return nums.reduce((prev, curr) => prev + curr);
+};
 
-enum Grade {
-  F = 1,
-  D,
-  C,
-  B,
-  A,
-}
+const newTotal = (a: number, ...nums: number[]): number => {
+  return a + nums.reduce((prev, curr) => prev + curr);
+};
 
-console.log(Grade.F);
+logMsg(total(1, 2, 3, 4));
+logMsg(newTotal(1, 2, 3));
+
+//never type
+const createError = (errMsg: string): never => {
+  throw new Error(errMsg);
+};
+
+const infinite = () => {
+  let i: number = 1;
+  while (true) {
+    i++;
+    if (i > 100) break;
+  }
+};
+
+//custom type guard
+const isNumber = (value: any): boolean => {
+  return typeof value === "number" ? true : false;
+};
+
+//use of the never type
+const numberOrString = (value: number | string): string => {
+  if (typeof value === "string") return "string";
+  if (isNumber(value)) return "number";
+  return createError("This should never happen");
+};
