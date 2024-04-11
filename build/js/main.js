@@ -1,24 +1,24 @@
 "use strict";
-// ASSERTIONS
-// convert to more or less specific
-let a = "hello";
-let b = a; //assignment to less specific type
-let c = a; // more specific
-let d = "world";
-let e = "world";
-const addOrConcat = (a, b, c) => {
-    if (c === "add")
-        return a + b;
-    return "" + a + b;
-};
-let myVal = addOrConcat(2, 2, "concat");
-// Be careful! TS sees no problem - but a string is returned
-let nextVal = addOrConcat(2, 2, "concat");
-// 10 as string
-10;
-// The DOM
-const img = document.querySelector("img");
-const myImg = document.getElementById("#img");
-const nextImg = (document.getElementById("#img")); //wont work in tsx react files
-img.src;
-myImg.src;
+class Coder {
+    constructor(name, music, age, lang = "Typescript") {
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+        this.name = name;
+        this.music = music;
+        this.age = age;
+        this.lang = lang;
+    }
+    getAge() {
+        return `Hello, I'm ${this.age}`;
+    }
+    getMusic() {
+        return `Hello, I like ${this.music}`;
+    }
+}
+const Eric = new Coder("Eric", "Rock", 37);
+console.log(Eric.getAge());
+// console.log(Eric.age);
+// console.log(Eric.lang);
+console.log(Eric.getMusic());
